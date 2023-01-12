@@ -35083,6 +35083,7 @@ speckle	speckles
 speckle	speckling
 spectacle	spectacles
 spectacular	spectaculars
+spectacular	spectacularly
 spectator	spectators
 specter	specters
 spectral	spectrals

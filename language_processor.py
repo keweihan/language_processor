@@ -91,7 +91,7 @@ class WordSyntax:
 
 class WordLemmatize:
     """ Class wrapper for mapping words to corresponding lemma. """
-    def __init__(self, lemma_file_path='lemmatization-en.txt'):
+    def __init__(self, lemma_file_path='language_data/lemmatization-en.txt'):
         """ Initialize lemma_dict """
         self.lemma_dict = {}
         
@@ -120,7 +120,7 @@ class WordLemmatize:
             return token.lower()
 
 class WordClassifer:
-    def __init__(self, noun_path='english-nouns.txt', adj_path='english-adjectives.txt'):
+    def __init__(self, noun_path='language_data/english-nouns.txt', adj_path='language_data/english-adjectives.txt'):
         self.adjDict = {}
         self.nounDict = {}
 
@@ -155,4 +155,4 @@ if __name__ == '__main__':
     test = {
         "lol" : 'hi'
     }
-    print(analyze_syntax("hello my name is Kevin. I am writing python right now."))
+    print(analyze_syntax("spectacularly."))
