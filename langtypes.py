@@ -1,3 +1,5 @@
+import textwrap
+
 class Token:  
     """ Stores information about a word.
     Reference: https://cloud.google.com/python/docs/reference/language/latest/google.cloud.language_v1.types.Token 
@@ -15,19 +17,24 @@ class Token:
         self.lemma = lemma_input
         
         # TODO: throw exception if invalid tag. 
-        self.partOfSpeech = PartOfSpeech()
-        self.partOfSpeech.tag = partofSpeech_tag
+        self.part_of_speech = PartOfSpeech()
+        self.part_of_speech.tag = partofSpeech_tag
 
         self.text = Text()
-        self.text.beginOffset = offset_input
+        self.text.begin_offset = offset_input
         self.text.content = content_input
     
     def __str__(self) -> str:
-        return_string = "token : {\n"
-        return_string += f"    lemma: {str(self.lemma)}\n"
-        return_string += f"    {str(self.partOfSpeech)}\n"
-        return_string += f"    {str(self.text)}\n"
-        return_string += '}\n'
+        return_string = "    {\n"
+        return_string += f"        lemma: {str(self.lemma)}\n"
+        return_string +=  "        partofSpeech: {\n"
+        return_string += f"            'tag' : '{self.part_of_speech.tag}'\n"
+        return_string +=  "        }\n"
+        return_string +=  "        text: {\n"
+        return_string += f"            'content' : '{self.text.content}'\n"
+        return_string += f"            'beginOffset' : {self.text.begin_offset}\n"
+        return_string +=  "        }\n"
+        return_string += '    }\n'
 
         return str(return_string)
 
@@ -45,13 +52,19 @@ class Sentence:
         offset_input     : 1-indexed offset of sentence in entire text (i.e. 14)
         """
         self.text = Text()
-        self.text.beginOffset = offset_input
+        self.text.begin_offset = offset_input
         self.text.content = content_input
 
     def __str__(self) -> str:
-        return_string = "sentence: {\n"
-        return_string += f"    '{str(self.text)}'\n"
-        return_string += '    }\n'
+        wrapper = textwrap.TextWrapper(initial_indent="        'content' : ", width=70,
+                                subsequent_indent=' '*len("        'content' : "))
+                                
+        return_string = "{\n"
+        return_string +=  "    text: {\n"
+        return_string += f"{wrapper.fill(self.text.content)}\n"
+        return_string += f"        'beginOffset' : {self.text.begin_offset}\n"
+        return_string +=  "    }\n"
+        return_string += '}\n'
 
         return str(return_string)
 
@@ -62,19 +75,19 @@ class PartOfSpeech:
     def __str__(self) -> str:
         return_string = "partofspeech: {\n"
         return_string += f"    'tag' : '{self.tag}'\n"
-        return_string += '    }\n'
+        return_string += '}\n'
 
         return str(return_string)
 
 class Text:
     def __init__(self) -> None:
         self.content = ''
-        self.beginOffset = 0
+        self.begin_offset = 0
     
     def __str__(self) -> str:
         return_string = "text : {\n"
         return_string += f"    'content' : '{self.content}'\n"
-        return_string += f"    'beginOffset' : '{str(self.beginOffset)}'\n"
+        return_string += f"    'beginOffset' : '{str(self.begin_offset)}'\n"
         return_string += '}\n'
 
         return str(return_string)
